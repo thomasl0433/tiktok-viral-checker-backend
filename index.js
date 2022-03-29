@@ -10,15 +10,17 @@ spotify.connectSpotify();
 app.use(cors());
 app.use(morgan("tiny"));
 
-app.get("/:term", (req, res, next) => {
+app.get("/:term", async (req, res, next) => {
   const data = {
     viral: Math.random() >= 0.5,
   };
 
-  console.log("req.params.term: ", req.params.term);
-  spotify.getPlaylist(req.params.term);
+  //console.log("req.params.term: ", req.params.term);
+  //spotify.getPlaylist(req.params.term);
+  const searchResult = await spotify.searchSong(req.params.term);
+  console.log("inside get ", searchResult);
 
-  res.send(data);
+  res.send(searchResult);
 });
 
 app.listen(port, () => {
