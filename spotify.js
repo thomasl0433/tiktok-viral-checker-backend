@@ -38,6 +38,7 @@ function connectSpotify() {
     if (!error && response.statusCode === 200) {
       token = body.access_token;
       console.log(body);
+      getPlaylist()
     } else {
       console.log("Didnt work for auth");
     }
@@ -62,7 +63,8 @@ const searchSong = async (song) => {
       tracks.forEach(track => {
         const temp = {
           name: track.name,
-          artist: track.artists[0].name
+          artist: track.artists[0].name,
+          id: track.id
         }
         //console.log(track.artists[0].name)
         out.push(temp);
@@ -74,13 +76,30 @@ const searchSong = async (song) => {
     });
 };
 
+const checkViral = async (id) => {
+  //console.log(viralPlaylists);
+  let out = false;
+  viralPlaylists[0].forEach((song) => {
+    if (song.id == id) {
+      console.log("MATCH")
+      out = true;
+    }
+  })
+  if (out) {
+    console.log("Song is viral");
+  } else {
+    console.log("Song is not viral");
+  }
+  return out;
+}
+
 const getPlaylist = async (term) => {
   const output = [];
 
   // for each playlist in playlistIDs
   playlistIDs.forEach(async (playlistID) => {
     const urlPlaylist = `https://api.spotify.com/v1/playlists/${playlistID}`;
-
+    
     // get response
     axios
       .get(urlPlaylist, {
@@ -95,11 +114,19 @@ const getPlaylist = async (term) => {
         const songs = res.data.tracks.items;
         // for each song in the playlist
         songs.forEach((song) => {
-          output.push({
-            name: song.track.name,
-            id: song.track.id,
-          });
+          if (song.track == null) {
+            // song is null
+            // console.log("song is null")
+            // console.log(song)
+          } else {
+            //console.log("not null")
+            output.push({
+              id: song.track.id,
+            });
+          }
+          
         });
+        //console.log(output);
 
         //console.log(output);
       })
@@ -118,4 +145,4 @@ const getPlaylist = async (term) => {
   viralPlaylists.push(output);
 };
 
-module.exports = { connectSpotify, getPlaylist, searchSong };
+module.exports = { connectSpotify, getPlaylist, searchSong, checkViral };
