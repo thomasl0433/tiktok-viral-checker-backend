@@ -37,7 +37,7 @@ function connectSpotify() {
   request.post(authOptions, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       token = body.access_token;
-      console.log(body);
+      //console.log(body);
       getPlaylist()
     } else {
       console.log("Didnt work for auth");
@@ -85,11 +85,11 @@ const checkViral = async (id) => {
       out = true;
     }
   })
-  if (out) {
-    console.log("Song is viral");
-  } else {
-    console.log("Song is not viral");
-  }
+  // if (out) {
+  //   console.log("Song is viral");
+  // } else {
+  //   console.log("Song is not viral");
+  // }
   return out;
 }
 

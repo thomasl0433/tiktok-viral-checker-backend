@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 var cors = require("cors");
-const port = 3001;
+require("dotenv").config({ path: "./config.env" });
+const port = process.env.PORT || 3001;
 const morgan = require("morgan");
 const spotify = require("./spotify.js");
 
