@@ -13,7 +13,7 @@ spotify.connectSpotify();
 app.use(cors());
 app.use(morgan("tiny"));
 
-app.get("/widesearch/:term", async (req, res, next) => {
+app.get("/search/:term", async (req, res, next) => {
   //console.log("req.params.term: ", req.params.term);
   //spotify.getPlaylist(req.params.term);
   const searchResult = await spotify.searchSong(req.params.term);
@@ -25,7 +25,7 @@ app.get("/widesearch/:term", async (req, res, next) => {
   res.send(searchResult);
 });
 
-app.get("/narrowsearch/:id", async (req, res, next) => {
+app.get("/isviral/:id", async (req, res, next) => {
   const data = decodeURIComponent(req.params.id);
   let isViral;
   if (data.indexOf('[') != -1) {
