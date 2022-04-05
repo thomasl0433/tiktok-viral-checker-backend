@@ -18,6 +18,9 @@ app.get("/widesearch/:term", async (req, res, next) => {
   //spotify.getPlaylist(req.params.term);
   const searchResult = await spotify.searchSong(req.params.term);
   //console.log("inside get ", searchResult);
+  if (searchResult.length == 0) {
+    res.status(404).send("Not found");
+  }
 
   res.send(searchResult);
 });
