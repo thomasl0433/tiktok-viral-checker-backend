@@ -18,7 +18,7 @@ app.get("/widesearch/:term", async (req, res, next) => {
   //spotify.getPlaylist(req.params.term);
   const searchResult = await spotify.searchSong(req.params.term);
   //console.log("inside get ", searchResult);
-  if (searchResult.length == 0) {
+  if (!searchResult) {
     res.status(404).send("Not found");
   }
 
@@ -26,9 +26,23 @@ app.get("/widesearch/:term", async (req, res, next) => {
 });
 
 app.get("/narrowsearch/:id", async (req, res, next) => {
+  const data = decodeURIComponent(req.params.id);
+  let isViral;
+  if (data.indexOf('[') != -1) {
+    // convert to array
+    const idArr = data.split(',')
+    idArr.forEach((item, index) => {
+      idArr[index] = item.replace(/[^a-z0-9]/gi, '')
+    })
+    //console.log(idArr);
+    isViral = await spotify.checkViral(idArr);
+  } else {
+    console.log("no duplicates")
+    isViral = await spotify.checkViral(req.params.id);
+  }
   //console.log("received: ", req.params.id);
 
-  const isViral = await spotify.checkViral(req.params.id);
+  
 
   res.send(isViral);
 })

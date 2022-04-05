@@ -46,6 +46,7 @@ function connectSpotify() {
 }
 
 const searchSong = async (song) => {
+  //console.log(viralPlaylists)
   let query = encodeURIComponent(song);
 
   const url = `https://api.spotify.com/v1/search?q=track%3A${query}&type=track&include_external=true`;
@@ -69,6 +70,7 @@ const searchSong = async (song) => {
         //console.log(track.artists[0].name)
         out.push(temp);
       })
+      //out = checkDuplicates(out)
       return out;
     })
     .catch(err => {
@@ -76,20 +78,30 @@ const searchSong = async (song) => {
     });
 };
 
+
 const checkViral = async (id) => {
-  //console.log(viralPlaylists);
   let out = false;
-  viralPlaylists[0].forEach((song) => {
-    if (song.id == id) {
-      console.log("MATCH")
-      out = true;
-    }
-  })
-  // if (out) {
-  //   console.log("Song is viral");
-  // } else {
-  //   console.log("Song is not viral");
-  // }
+  const temp = viralPlaylists[0].map(e => e.id);
+  
+  if (Array.isArray(id)) {
+    id.forEach(item => {
+      //console.log(item)
+      if (temp.includes(item)) {
+        out = true;
+        console.log("MATCH")
+      }
+    })
+  } else {
+    console.log('one arg')
+    viralPlaylists[0].forEach((song) => {
+      if (song.id == id) {
+        // song is viral
+        console.log("MATCH")
+        out = true;
+      }
+    })
+  }
+  //console.log(viralPlaylists);
   return out;
 }
 
@@ -115,27 +127,20 @@ const getPlaylist = async (term) => {
         // for each song in the playlist
         songs.forEach((song) => {
           if (song.track == null) {
-            // song is null
-            // console.log("song is null")
-            // console.log(song)
+            // do nothing
           } else {
             //console.log("not null")
             output.push({
               id: song.track.id,
             });
           }
-          
         });
-        //console.log(output);
-
-        //console.log(output);
       })
       .catch((error) => {
         //console.log("Request Didnt work")
         console.error(error);
       });
-
-    // add track names to data structure
+      //console.log(output)
   });
   // make request to spotify API
   // const url = 'https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V';
