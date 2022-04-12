@@ -78,7 +78,6 @@ const searchSong = async (song) => {
     });
 };
 
-
 const checkViral = async (id) => {
   let out = false;
   const temp = viralPlaylists[0].map(e => e.id);
@@ -88,15 +87,15 @@ const checkViral = async (id) => {
       //console.log(item)
       if (temp.includes(item)) {
         out = true;
-        console.log("MATCH")
+        //console.log("MATCH")
       }
     })
   } else {
-    console.log('one arg')
+    //console.log('one arg')
     viralPlaylists[0].forEach((song) => {
       if (song.id == id) {
         // song is viral
-        console.log("MATCH")
+        //console.log("MATCH")
         out = true;
       }
     })
