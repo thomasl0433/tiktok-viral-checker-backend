@@ -37,7 +37,7 @@ app.get("/isviral/:id", async (req, res, next) => {
     //console.log(idArr);
     isViral = await spotify.checkViral(idArr);
   } else {
-    console.log("no duplicates")
+    //console.log("no duplicates")
     isViral = await spotify.checkViral(req.params.id);
   }
   //console.log("received: ", req.params.id);
