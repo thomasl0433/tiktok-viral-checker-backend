@@ -39,7 +39,6 @@ function connectSpotify() {
       token = body.access_token;
       console.log(body);
       getPlaylist();
-      refreshConnection();
     } else {
       console.log("Didnt work for auth");
     }
@@ -58,6 +57,10 @@ const searchSong = async (song) => {
 
   const url = `https://api.spotify.com/v1/search?q=track%3A${query}&type=track&include_external=true`;
 
+  if (token === undefined) {
+    console.log("TOKEN IS UNDEFINED")
+    refreshConnection();
+  }
   return axios
     .get(url, {
       headers: {
@@ -118,6 +121,11 @@ const getPlaylist = async (term) => {
   playlistIDs.forEach(async (playlistID) => {
     const urlPlaylist = `https://api.spotify.com/v1/playlists/${playlistID}`;
     
+    if (token === undefined) {
+      console.log("TOKEN IS UNDEFINED")
+      refreshConnection();
+    }
+
     // get response
     axios
       .get(urlPlaylist, {
