@@ -38,11 +38,18 @@ function connectSpotify() {
     if (!error && response.statusCode === 200) {
       token = body.access_token;
       console.log(body);
-      getPlaylist()
+      getPlaylist();
+      refreshConnection();
     } else {
       console.log("Didnt work for auth");
     }
   });
+}
+
+function refreshConnection() {
+  setInterval(() => {
+    connectSpotify();
+  }, 3500000)
 }
 
 const searchSong = async (song) => {
@@ -149,4 +156,4 @@ const getPlaylist = async (term) => {
   viralPlaylists.push(output);
 };
 
-module.exports = { connectSpotify, getPlaylist, searchSong, checkViral };
+module.exports = { connectSpotify, getPlaylist, searchSong, checkViral, refreshConnection };
