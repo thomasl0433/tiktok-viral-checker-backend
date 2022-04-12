@@ -66,6 +66,7 @@ const searchSong = async (song) => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
       },
     })
     .then(async (res) => {
@@ -132,6 +133,7 @@ const getPlaylist = async (term) => {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
         },
       })
       .then((res) => {
